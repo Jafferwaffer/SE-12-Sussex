@@ -17,12 +17,6 @@ public class AntGame {
      */
     public static void main(String[] args) throws Exception {
         SetUp setup = new SetUp();
-        setup.addPlayer("Hayden");
-        setup.addPlayer("Loser");
-        setup.loadAntBrain("N:\\Documents\\sample.txt");
-        setup.loadAntBrain("N:\\Documents\\sample.txt");
-        setup.loadWorld("N:\\Documents\\tiny.txt");
-        setup.runTwoPlayer();
+        setup.checkDump();
     }
-    
 }

@@ -53,11 +53,11 @@ public class WorldParser {
                 throw new Exception();
             }
             Cell[][] world = new Cell[xSize][ySize];
-            for (int x = 0; x < splitStringList.size(); x++) {
-                String[] splitString = splitStringList.get(x);
+            for (int y = 0; y < splitStringList.size(); y++) {
+                String[] splitString = splitStringList.get(y);
                 if (splitString.length == xSize) {
-                    for (int y = 0; y < splitString.length; y++) {
-                        String cellString = splitString[y];
+                    for (int x = 0; x < splitString.length; x++) {
+                        String cellString = splitString[x];
                         switch (cellString) {
                             case "#":
                                 world[x][y] = new Cell(true);

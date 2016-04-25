@@ -18,6 +18,10 @@ public class World {
     Cell[][] world;
     List<Ant> ants;
 
+    public Cell[][] getWorld() {
+        return world;
+    }
+
     public World(Cell[][] world) {
         this.ants = new ArrayList();
         this.world = world;
@@ -97,7 +101,6 @@ public class World {
     public void kill_ant_at(int id, Position pos) {
         set_ant_at(pos, null);
         ants.get(id).setAlive(false);
-        System.out.println("Ant " + id + " died at x pos " + pos.x + " y pos " + pos.y);
     }
     
     public int food_at(Position pos) {
@@ -117,29 +120,47 @@ public class World {
     ********************************************/
     public void set_marker_at(Position p, Color color, int marker) {
         if (color == Color.RED) {
-            this.world[p.x][p.y].setRed(marker);
+            this.world[p.x][p.y].setRed(marker, true);
         } else {
-            this.world[p.x][p.y].setBlack(marker);
+            this.world[p.x][p.y].setBlack(marker, true);
         }
         
     }
 
     public void clear_marker_at(Position p, Color color, int marker) {
-        if (color == Color.RED) { 
-            this.world[p.x][p.y].setRed(marker);
+        if (color == Color.RED) {
+            if (this.world[p.x][p.y].getRed()[marker]) {
+                this.world[p.x][p.y].setRed(marker, false);
+            }
         } else {
-            this.world[p.x][p.y].setBlack(marker);
+            if (this.world[p.x][p.y].getBlack()[marker]) {
+                this.world[p.x][p.y].setBlack(marker, false);
+            }
         }
     }
 
     public boolean check_marker_at(Position p, Color c, int marker) {
-        return (c == Color.RED) ? this.world[p.x][p.y].getRed() == marker : 
-                this.world[p.x][p.y].getBlack() == marker;
+        return (c == Color.RED) ? this.world[p.x][p.y].getRed()[marker]: 
+                this.world[p.x][p.y].getBlack()[marker];
     }
 
     public boolean check_any_marker_at(Position p, Color other_color) {
-        return (other_color == Color.RED) ? this.world[p.x][p.y].getRed() >= 0 :
-             this.world[p.x][p.y].getBlack() >= 0;
+        boolean isMarker = false;
+        if (other_color == Color.RED) {
+            for (boolean marker : world[p.x][p.y].getRed()) {
+                if (marker) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            for (boolean marker : world[p.x][p.y].getBlack()) {
+                if (marker) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
     
     /********************************************
@@ -213,8 +234,8 @@ public class World {
     Game Play
     **********************************************/
     public void initialiseWorld() {
-        for (int x = 0; x < this.world.length; x++) {
-            for (int y = 0; y < this.world[x].length; y++) {
+        for (int y = 0; y < this.world.length; y++) {
+            for (int x = 0; x < this.world[y].length; x++) {
                 if (this.world[x][y].antHill()) {
                     Ant ant = new Ant(this.ants.size(), this.world[x][y].getAntHillColor(), new Position(x, y));
                     this.world[x][y].setAnt(ant);

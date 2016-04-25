@@ -5,6 +5,10 @@
  */
 package antgame;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,16 +57,6 @@ public class SetUp {
         this.antBrains.remove(index);
     }
     
-    public void runTwoPlayer() throws Exception {
-        if (this.players.size() == 2 && this.antWorld != null) {
-            GameInstance game = new GameInstance(this.antWorld, this.antBrains.get(0), this.antBrains.get(1));
-            game.runGame(this.antWorld);
-            updateScores(game.getWinner(), this.players.get(0), this.players.get(1));
-        } else {
-            throw new Exception();
-        }
-    }
-    
     public void updateScores(String winner, Player playerOne, Player playerTwo) throws Exception {
         switch (winner) {
             case "DRAW":
@@ -82,6 +76,79 @@ public class SetUp {
                 break;
             default:
                 throw new Exception();
+        }
+    }
+    
+    public void checkDump() throws Exception {
+        addPlayer("Hayden");
+        addPlayer("Loser");
+        loadAntBrain("N:\\Documents\\sample.txt");
+        loadAntBrain("N:\\Documents\\sample.txt");
+        loadWorld("N:\\Documents\\tiny.txt");
+        try {
+            FileInputStream fstream = new FileInputStream("N:\\Year_2\\Software Engineering\\dump.all");
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String fileLine;
+            GameInstance game = new GameInstance(this.antWorld, this.antBrains.get(0), this.antBrains.get(1));
+            Cell[][] world = game.gameWorld.getWorld();
+            for (int round = 0; round < 10001; round++) {
+                br.readLine();
+                fileLine = br.readLine();
+                for (int y = 0; y < world.length; y++) {
+                    for (int x = 0; x < world[y].length; x++) {
+                        String cellContains = "cell (" + x + ", " + y + "): ";
+                        fileLine = br.readLine();
+                        if (world[x][y].rocky()) {
+                            cellContains += "rock";
+                        } else {
+                            if (world[x][y].getFood() > 0) {
+                                cellContains += world[x][y].getFood() + " food; ";
+                            }
+                            if (world[x][y].antHill()){
+                                cellContains += world[x][y].getAntHillColor().name().toLowerCase() + " hill; ";
+                            }
+                            if (game.gameWorld.check_any_marker_at(new Position(x, y), Color.RED)) {
+                                cellContains += "red marks: ";
+                                for (int marker = 0; marker < 6; marker ++) {
+                                    if (world[x][y].getRed()[marker]) {
+                                        cellContains += marker;
+                                    }
+                                }
+                                cellContains += "; ";
+                            }
+                            if (game.gameWorld.check_any_marker_at(new Position(x, y), Color.BLACK)) {
+                                cellContains += "black marks: ";
+                                for (int marker = 0; marker < 6; marker ++) {
+                                    if (world[x][y].getBlack()[marker]) {
+                                        cellContains += marker;
+                                    }
+                                }
+                                cellContains += "; ";
+                            }
+                            if (world[x][y].getAnt() != null) {
+                                Ant ant = world[x][y].getAnt();
+                                cellContains += ant.color().name().toLowerCase()+ " ant of ";
+                                cellContains += "id " + ant.getId() + ", ";
+                                cellContains += "dir " + ant.direction() + ", ";
+                                int food = (ant.has_food()) ? 1 : 0;
+                                cellContains += "food " + food + ", ";
+                                cellContains += "state " + ant.state() + ", ";
+                                cellContains += "resting " + ant.resting();
+                            }
+                            if (!fileLine.equals(cellContains)) {
+                                System.out.print(fileLine + "\n");
+                                System.out.print(cellContains + "\n");
+                                throw new Exception();
+                            }
+                        }
+                    }
+                }
+                world = game.runRound();
+            }
+ 
+        } catch (Exception e){//Catch exception if any
+            throw e;
         }
     }
 }

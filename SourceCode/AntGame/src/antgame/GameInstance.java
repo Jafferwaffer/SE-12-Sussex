@@ -16,11 +16,14 @@ public class GameInstance {
     World gameWorld;
     AntBrain blackBrain;
     AntBrain redBrain;
+    RandomInt randomInt;
 
     public GameInstance(Cell[][] gameWorld, AntBrain blackBrain, AntBrain redBrain) {
         this.gameWorld = new World(gameWorld);
         this.blackBrain = blackBrain;
         this.redBrain = redBrain;
+        this.gameWorld.initialiseWorld();
+        this.randomInt = new RandomInt(12345);
     }
     
     /************************************************
@@ -95,8 +98,8 @@ public class GameInstance {
                 } else if (instruction instanceof Flip) {
                     Flip flip = (Flip)instruction;
                     Random randomGenerator = new Random();
-                    //flip.getI() != 0
-                    int st = (randomGenerator.nextInt(10) == 0) ? flip.getState1() : flip.getState2();
+                    // randomGenerator.nextInt(10)
+                    int st = (this.randomInt.randomInt(flip.getI()) == 0) ? flip.getState1() : flip.getState2();
                     a.set_state(st);
                 }
             }
@@ -104,18 +107,14 @@ public class GameInstance {
     }
     
     /*************************************
-     
+     * @return 
+     * @throws java.lang.Exception     
     *************************************/
-    public void runGame(Cell[][] antWorld) throws Exception {
-        this.gameWorld.initialiseWorld();
-        for (int round = 0; round < 300000; round++) {
-            for (Ant ant : this.gameWorld.getAnts()) {
-                step(ant.getId());
-            }
-            if (round % 600 == 0) {
-                System.out.println("Do something");
-            }
+    public Cell[][] runRound() throws Exception {
+        for (Ant ant : this.gameWorld.getAnts()) {
+            step(ant.getId());
         }
+        return this.gameWorld.getWorld();
     }
     
     public String getWinner() {

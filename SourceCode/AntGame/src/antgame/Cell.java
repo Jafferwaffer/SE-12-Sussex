@@ -12,8 +12,8 @@ package antgame;
 public class Cell {
     boolean rocky;
     int food;
-    int black;
-    int red;
+    boolean[] black;
+    boolean[] red;
     Ant ant;
     boolean antHill;
     Color antHillColor;
@@ -21,8 +21,8 @@ public class Cell {
     public Cell() {
         this.rocky = false;
         this.food = 0;
-        this.black = -1;
-        this.red = -1;
+        this.black = new boolean[6];
+        this.red = new boolean[6];
         this.ant = null;
         this.antHill = false;
         this.antHillColor = null;
@@ -31,8 +31,8 @@ public class Cell {
     public Cell(boolean rocky) {
         this.rocky = rocky;
         this.food = 0;
-        this.black = -1;
-        this.red = -1;
+        this.black = new boolean[6];
+        this.red = new boolean[6];
         this.ant = null;
         this.antHill = false;
         this.antHillColor = null;
@@ -40,8 +40,8 @@ public class Cell {
 
     public Cell(int food, boolean antHill, Color antHillColor) {
         this.food = food;
-        this.black = -1;
-        this.red = -1;
+        this.black = new boolean[6];
+        this.red = new boolean[6];
         this.ant = null;
         this.antHill = antHill;
         this.antHillColor = antHillColor;
@@ -59,20 +59,20 @@ public class Cell {
         this.food = food;
     }
 
-    public int getBlack() {
+    public boolean[] getBlack() {
         return black;
     }
 
-    public void setBlack(int black) {
-        this.black = black;
+    public void setBlack(int marker, boolean set) {
+        this.black[marker] = set;
     }
 
-    public int getRed() {
+    public boolean[] getRed() {
         return red;
     }
 
-    public void setRed(int red) {
-        this.red = red;
+    public void setRed(int marker, boolean set) {
+        this.red[marker] = set;
     }
 
     public Ant getAnt() {
