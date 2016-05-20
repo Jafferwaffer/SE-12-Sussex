@@ -1,5 +1,5 @@
 Sense Here 1 2 Home
-Move 0 1
+Move 0 17
 Sense Here 3 5 Marker 2
 Unmark 2 4
 Mark 3 9
@@ -18,7 +18,7 @@ Flip 4 17 20
 Flip 2 18 19
 Turn Left 20
 Turn Right 20
-Move 2 17
+Move 0 17
 Turn Left 22
 Turn Left 23
 Turn Left 24
