@@ -1,0 +1,56 @@
+Sense Here 1 2 Home
+Move 0 17
+Sense Here 3 5 Marker 2
+Unmark 2 4
+Mark 3 9
+Sense Here 6 8 Marker 1
+Unmark 1 7
+Mark 2 9
+Mark 1 9
+PickUp 22 10
+Sense Ahead 15 11 Food
+Sense LeftAhead 12 13 Food
+Turn Left 15
+Sense RightAhead 14 16 Food
+Turn Right 15
+Move 3 16
+Flip 4 17 20
+Flip 2 18 19
+Turn Left 20
+Turn Right 20
+Move 0 17
+Turn Left 22
+Turn Left 23
+Turn Left 24
+Sense Here 25 27 Marker 3
+Unmark 3 26
+Mark 2 31
+Sense Here 28 30 Marker 2
+Unmark 2 29
+Mark 1 31
+Unmark 1 31
+Sense Here 47 32 Home
+Sense Ahead 46 33 Home
+Sense LeftAhead 44 34 Home
+Sense RightAhead 45 35 Home
+Sense Ahead 46 36 Marker 1
+Sense Ahead 46 37 Marker 2
+Sense Ahead 46 38 Marker 3
+Sense RightAhead 45 39 Marker 1
+Sense RightAhead 45 40 Marker 2
+Sense RightAhead 45 41 Marker 3
+Sense LeftAhead 44 42 Marker 1
+Sense LeftAhead 44 43 Marker 2
+Sense LeftAhead 44 31 Marker 3
+Turn Left 46
+Turn Right 46
+Move 24 51
+Drop 48
+Turn Right 49
+Turn Right 50
+Turn Right 1
+Flip 2 52 53
+Flip 3 54 46
+Flip 3 54 55
+Turn Right 46
+Turn Left 46
